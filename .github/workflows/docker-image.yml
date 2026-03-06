@@ -1,0 +1,21 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: |
+        echo "${{ secrets.DOCKERPASSWORD }}" | docker login -u "intime333" --password-stdin
+        docker build -t cool_docker .
+        docker tag cool_docker intime333/nice_docker:latest
+        docker push dockerusername/nice_docker:latest
+
